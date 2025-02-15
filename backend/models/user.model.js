@@ -57,7 +57,7 @@ userSchema.pre("save", async function (next) {
 })
 //sulta 1234567
 //1234567 => invalid credentials 
-userSchema.methods.comparPassowrd = async function (password) { 
+userSchema.methods.comparPassowrd = async function (password) {
     return bcrypt.compare(password, this.password);
 }
 
