@@ -33,6 +33,7 @@ const setCookies = (res, accessToken, refreshToken) => {
 
 }
 
+//Sign Up function 
 export const signup = async (req, res) => {
     const { email, password, name } = req.body;
     try {
@@ -51,23 +52,46 @@ export const signup = async (req, res) => {
         setCookies(res, accessToken, refreshToken);
 
         res.status(200).json({
-            user: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+        });
+    } catch (error) {
+        console.log("Error in signup controller", error);
+        res.status(500).json({ message: error.message })
+    }
+}
+
+//Log in function
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+
+        if (user && (await user.comparePassword(password))) {
+            const { accessToken, refreshToken } = generateToken(user._id);
+
+            await storeRefreshToken(user._id, refreshToken);
+            setCookies(res, accessToken, refreshToken);
+
+            res.json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
-            }, message: "User created successfully"
-        });
+            });
+        }
     } catch (error) {
+        console.log("Error in login container", error.message);
         res.status(500).json({ message: error.message })
     }
 }
-export const login = async (req, res) => {
-    res.send("Login route called");
-}
+
+//Logout function
 export const logout = async (req, res) => {
     try {
-        const refreshToken = req.cookie.refreshToken;
+        const refreshToken = req.cookies.refreshToken;
         if (refreshToken) {
             const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
             await redis.del(`refresh_token: ${decoded.userId}`);
