@@ -113,7 +113,7 @@ export const refreshToken = async (req, res) => {
         if (!refreshToken) {
             return res.status(401).json({ message: "No refresh token provided" })
         }
-        const decoded = jwt.verify(refreshToken, process.env[REFRESH_TOKEN_SECRET]);
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
         const storedToken = await redis.get(`refresh_token: ${decoded.userId}`);
 
         if (storedToken !== refreshToken) {
@@ -130,6 +130,9 @@ export const refreshToken = async (req, res) => {
 
         res.json({ message: "Token refreshed successfully" });
     } catch (error) {
-
+        console.log("Error in refreshToken conctroller", error.message);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 }
+
+export const getProfile = async (req, res) => {}
