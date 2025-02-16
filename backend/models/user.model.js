@@ -44,19 +44,19 @@ const userSchema = new mongoose.Schema({
 
 //pre-save hook to hash password before saving to database
 userSchema.pre("save", async function (next) {
-    if (!this.isModified(password)) return next()
+    if (!this.isModified("password")) return next()
 
     try {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
         next();
     } catch (error) {
-
+        next(error);
     }
 })
 //sulta 1234567
 //1234567 => invalid credentials 
-userSchema.methods.comparPassowrd = async function (password) {
+userSchema.methods.comparePassword = async function (password) {
     return bcrypt.compare(password, this.password);
 };
 
