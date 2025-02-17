@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+import middleware from "";
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -60,6 +61,6 @@ userSchema.methods.comparePassword = async function (password) {
     return bcrypt.compare(password, this.password);
 };
 
-const user = mongoose.model("user", userSchema);
+const User = mongoose.model("user", userSchema);
 
 export default user;
