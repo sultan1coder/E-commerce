@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", protectRoute, adminRoute, getAllProducts);
 router.get("/featured", getFeaturedProducts);
-router.post("/create", adminRoute, protectRoute, createProduct);
+router.post("/", adminRoute, protectRoute, createProduct);
 router.delete("/:id", adminRoute, protectRoute, deleteProduct);
 
 export default router;
