@@ -1,4 +1,4 @@
-import { json } from "express";
+// import { json } from "express";
 import { redis } from "../lib/redis.js";
 import Product from "../models/product.model.js"
 
