@@ -83,7 +83,10 @@ export const deleteProduct = async (req, res) => {
         }
 
         await Product.findByIdAndDelete(req.params.id)
-    } catch (error) {
 
+        res.json({ message: "Product deleted successfully" });
+    } catch (error) {
+        console.log("Error in deletedProduct controller", error.message);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 }
