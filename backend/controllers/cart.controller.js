@@ -16,7 +16,6 @@ export const getCartProducts = async (req, res) => {
     }
 };
 
-
 export const addToCart = async (req, res) => {
     try {
         const { productId } = req.body;
@@ -37,7 +36,6 @@ export const addToCart = async (req, res) => {
     }
 }
 
-
 export const removeAllFromCart = async (req, res) => {
     try {
         const { productId } = req.body;
@@ -53,7 +51,6 @@ export const removeAllFromCart = async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
-
 
 export const updateQuantity = async (req, res) => {
     try {
