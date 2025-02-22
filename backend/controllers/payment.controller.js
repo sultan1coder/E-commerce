@@ -72,3 +72,12 @@ export const createCheckoutSession = async (req, res) => {
 		res.status(500).json({ message: "Error processing checkout", error: error.message });
 	}
 };
+
+async function createStripeCoupon(discountPercentage) {
+	const coupon = await stripe.coupons.create({
+		percent_off: discountPercentage,
+		duration: "once",
+	});
+
+	return coupon.id;
+}
