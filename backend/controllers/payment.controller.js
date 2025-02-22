@@ -1,6 +1,6 @@
 import Coupon from "../models/coupon.model.js";
 import { stripe } from "../lib/stripe.js";
-import order from "../models/order.model.js"; 
+import order from "../models/order.model.js";
 
 export const createCheckoutSession = async (req, res) => {
 	try {
@@ -45,10 +45,10 @@ export const createCheckoutSession = async (req, res) => {
 			cancel_url: `${process.env.CLIENT_URL}/purchase-cancel`,
 			discounts: coupon
 				? [
-						{
-							coupon: await createStripeCoupon(coupon.discountPercentage),
-						},
-				  ]
+					{
+						coupon: await createStripeCoupon(coupon.discountPercentage),
+					},
+				]
 				: [],
 			metadata: {
 				userId: req.user._id.toString(),
